@@ -1,5 +1,7 @@
 import * as THREE from "three";
 
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 import "./styles.css";
 // scene
 const scene = new THREE.Scene();
@@ -39,7 +41,15 @@ const canvas = document.querySelector(".webgl");
 const renderScene = new THREE.WebGLRenderer({ canvas });
 
 renderScene.setSize(sizes.width, sizes.height);
+renderScene.setPixelRatio(2);
 renderScene.render(scene, camera);
+
+//controls movement of sphere
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.enablePan = false;
+controls.enableZoom = false;
+controls.autoRotate = true;
 
 window.addEventListener("resize", () => {
   // resize window
@@ -53,8 +63,16 @@ window.addEventListener("resize", () => {
 });
 
 const loop = () => {
+  controls.update();
+  // mesh.position.x += 0.1;
   renderScene.render(scene, camera);
   window.requestAnimationFrame(loop);
 };
 
 loop();
+
+// timeline magic
+const timeline = gsap.timeline({
+  defaults: { duration: 1 },
+});
+timeline.fromTo(mesh.scale, { z: 0, x: 0, y: 0 }, { z: 1, y: 1, y: 1 });
