@@ -47,5 +47,14 @@ window.addEventListener("resize", () => {
   sizes.height = window.innerHeight;
 
   // update camera
+  camera.updateProjectionMatrix();
   camera.aspect = sizes.width / sizes.height;
+  renderScene.setSize(sizes.width, sizes.height);
 });
+
+const loop = () => {
+  renderScene.render(scene, camera);
+  window.requestAnimationFrame(loop);
+};
+
+loop();
