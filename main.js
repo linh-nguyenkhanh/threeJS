@@ -12,3 +12,4 @@ const mesh = new THREE.Mesh(geometryShape, material);
 scene.add(mesh);
 
 // camera
+const camera = 
